@@ -7,7 +7,7 @@ class Student:
 
     user = {}
     new_data = {}
-    
+
     def student(self):
         with open("main.json") as data_file:
             activities = json.load(data_file)
@@ -20,7 +20,7 @@ class Student:
         Student.user['name'] = str(input("\nPlease enter your name: "))
         Student.user['password'] = str(input("\nPlease enter your password: "))
         Student.new_data[data] = self
-        
+
     @classmethod
     def set_up_json(cls):
         with open("main.json") as data_file:
@@ -58,6 +58,27 @@ class Student:
         with open('data_saver.json', 'w') as f:
             f.write(json.dumps(cls.data))
 
+    @classmethod
+    def action(cls):
+        cls.actions = int(input("\n1 - press for adding, 2 - press for report, 3 - press for exit: "))
+        if cls.actions == 1:
+            return cls.actions
+        elif cls.actions == 2:
+            return cls.actions
+        elif cls.actions == 3:
+            print("You have existed: Try again ")
+            return cls.action()
+        else:
+            print("Something went wrong, try again: ")
+            return cls.action()
+
+    @classmethod
+    def download_input(cls):
+        with open("data_saver.json") as data_file:
+            cls.data = json.loads(data_file)
+            for i in cls.data:
+                print("activity", '-', i["activity"], ',', "weekday", '-', i["weekdays"], ',', "Money", '-', i["money"])
+
 
 class Activity(Student):
     def input_activity(self):
@@ -84,14 +105,23 @@ class Weekday(Student):
 
 
 def main():
-   pass
+    while True:
+        Student.actions = Student.action()
+        if Student.actions == 1:
+            Student.student()
+            Student.__init__("Gor","ISotasd", "asd")
+            Student.set_up_json()
+            Student.info_input()
+        elif Student.actions == 2:
+            Student.download_input()
+            return Student.action()
+        elif Student.actions == 3:
+            return Student.actions
+        else:
+            return Student.action()
 main()
 
 print("\n Thanks for using our program. ")
-
-
-
-
 
 
 
