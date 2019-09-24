@@ -84,14 +84,7 @@ class Weekday(Student):
 
 
 def main():
-    print("\n   Here are the activities: ")
-    # student = Student.set_up_json()
-    student1 = Activity.input_activity('activity')
-
-    # print(student)
-    print(student1)
-
-
+   pass
 main()
 
 print("\n Thanks for using our program. ")
