@@ -8,10 +8,7 @@ class Student:
     user = {}
     new_data = {}
 
-    def student(self):
-        with open("main.json") as data_file:
-            activities = json.load(data_file)
-        return activities['student']['activity']
+
 
     def __init__(self, name, password, data):
         self.name = name
@@ -19,7 +16,13 @@ class Student:
         self.data = data
         Student.user['name'] = str(input("\nPlease enter your name: "))
         Student.user['password'] = str(input("\nPlease enter your password: "))
-        Student.new_data[data] = self
+        Student.new_data['data'] = data
+
+    @classmethod
+    def student(cls):
+        with open("main.json") as data_file:
+            cls.activities = json.load(data_file)
+        return cls.activities['student']['activity']
 
     @classmethod
     def set_up_json(cls):
@@ -43,14 +46,13 @@ class Student:
 
     @classmethod
     def info_input(cls):
-        cls.data = super().set_up_json()
-        for j in cls.data['activity']:
+        for j in cls.['student']['activity']:
             print(j)
         Student.new_data = Activity.input_activity()
-        for i in cls.data['weekdays']:
+        for i in cls.data['student']['weekdays']:
             print(i)
         Student.new_data = Weekday.input_weekdays()
-        for a in cls.data['money']:
+        for a in cls.data['student']['money']:
             print(a)
         Student.new_data = Student.input_money()
         with open('data_saver.json', 'r') as file:
@@ -109,7 +111,7 @@ def main():
         Student.actions = Student.action()
         if Student.actions == 1:
             Student.student()
-            Student.__init__("Gor","ISotasd", "asd")
+            # St = Student("Gor","ISotasd", "asd")
             Student.set_up_json()
             Student.info_input()
         elif Student.actions == 2:
