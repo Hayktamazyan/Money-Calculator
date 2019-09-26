@@ -9,11 +9,12 @@ class Student:
     new_data = {}
 
 
-
-    def __init__(self, name, password, data):
-        self.name = name
-        self.password = password
-        self.data = data
+    @classmethod
+    def student_info(cls, name, password, data):
+        cls.name = name
+        cls.password = password
+        cls.data = data
+        data = str(name) + '' + str(password)
         Student.user['name'] = str(input("\nPlease enter your name: "))
         Student.user['password'] = str(input("\nPlease enter your password: "))
         Student.new_data['data'] = data
@@ -46,19 +47,19 @@ class Student:
 
     @classmethod
     def info_input(cls):
-        for j in cls.['student']['activity']:
+        for j in cls.file['student']['activity']:
             print(j)
-        Student.new_data = Activity.input_activity()
-        for i in cls.data['student']['weekdays']:
+        Student.new_data['activity']['Supermarket']['Cafeteria'] = Activity.input_activity()
+        for i in cls.file['student']['weekdays']:
             print(i)
-        Student.new_data = Weekday.input_weekdays()
-        for a in cls.data['student']['money']:
+        Student.new_data = Weekday.input_weekdays('weekday')
+        for a in cls.file['student']['budget']:
             print(a)
-        Student.new_data = Student.input_money()
-        with open('data_saver.json', 'r') as file:
-            cls.data = json.load(file)
+        Student.new_data = Student.input_money('budget')
+        with open('data_saver.json', 'r') as f:
+            cls.file = json.load(f)
         with open('data_saver.json', 'w') as f:
-            f.write(json.dumps(cls.data))
+            f.write(json.dumps(cls.file))
 
     @classmethod
     def action(cls):
@@ -67,6 +68,7 @@ class Student:
             return cls.actions
         elif cls.actions == 2:
             return cls.actions
+
         elif cls.actions == 3:
             print("You have existed: Try again ")
             return cls.action()
@@ -83,14 +85,17 @@ class Student:
 
 
 class Activity(Student):
-    def input_activity(self):
-        activity = input("\nPlease choose one of the activities: ")
-        self.activity = super().set_up_json()
+    @staticmethod
+    def input_activity():
+        activities = input("\nPlease choose one of the activities: ")
+        activity = Student.set_up_json()
         while True:
-            if activity in self.activity:
-                return activity
+            if activity in activity:
+                print("Choose one of these activities ")
+                return activities
             else:
                 print("You have a wrong input, Try again: ")
+                return activity
 
 
 class Weekday(Student):
@@ -111,7 +116,7 @@ def main():
         Student.actions = Student.action()
         if Student.actions == 1:
             Student.student()
-            # St = Student("Gor","ISotasd", "asd")
+            Student.student_info(name=0, password=0, data=0)
             Student.set_up_json()
             Student.info_input()
         elif Student.actions == 2:
