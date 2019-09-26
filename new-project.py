@@ -25,14 +25,14 @@ class Student:
             cls.activities = json.load(data_file)
         return cls.activities['student']['activity']
 
-    @classmethod
-    def set_up_json(cls):
+    @staticmethod
+    def set_up_json():
         with open("main.json") as data_file:
-            cls.file = json.load(data_file)
-            cls.weekdays = cls.file['student']['weekdays']
-            cls.activity = cls.file['student']['activity']
-            cls.money = cls.file['student']['budget']
-            return cls.weekdays, cls.activity, cls.money
+            file = json.load(data_file)
+            weekdays = file['student']['weekdays']
+            activity = file['student']['activity']
+            money = file['student']['budget']
+            return weekdays, activity, money
 
     @staticmethod
     def input_money():
@@ -49,7 +49,7 @@ class Student:
     def info_input(cls):
         for j in cls.file['student']['activity']:
             print(j)
-        Student.new_data['activity']['Supermarket']['Cafeteria'] = Activity.input_activity()
+        Student.new_data['activity'] = Activity.input_activity()
         for i in cls.file['student']['weekdays']:
             print(i)
         Student.new_data = Weekday.input_weekdays('weekday')
@@ -67,8 +67,7 @@ class Student:
         if cls.actions == 1:
             return cls.actions
         elif cls.actions == 2:
-            return cls.actions
-
+            return cls.action
         elif cls.actions == 3:
             print("You have existed: Try again ")
             return cls.action()
@@ -85,17 +84,18 @@ class Student:
 
 
 class Activity(Student):
-    @staticmethod
-    def input_activity():
+    @classmethod
+    def input_activity(cls, i):
+        cls.i = i
         activities = input("\nPlease choose one of the activities: ")
-        activity = Student.set_up_json()
+        cls.activity = Student.set_up_json()
         while True:
-            if activity in activity:
+            if i in cls.activity:
                 print("Choose one of these activities ")
                 return activities
             else:
                 print("You have a wrong input, Try again: ")
-                return activity
+                return Activity.input_activity(i)
 
 
 class Weekday(Student):
