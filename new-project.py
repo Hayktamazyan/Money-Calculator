@@ -6,14 +6,24 @@ print("\n Please enter your option")
 class Student:
     new_data = {}
 
-    def __init__(self):
-        pass
+    def __init__(self, Supermarket, Cafeteria, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, data):
+        self.Supermarket = Supermarket
+        self.Cafeteria = Cafeteria
+        self.Monday = Monday
+        self.Tuesday = Tuesday
+        self.Wednesday = Wednesday
+        self.Thursday = Thursday
+        self.Friday = Friday
+        self.Saturday = Saturday
+        self.Sunday = Sunday
+        self.data['data'] = self
+
 
     @staticmethod
     def student_info():
         user = {}
-        user['name'] = str(input("Please enter your name: "))
-        user['password'] = str(input("Please enter the password: "))
+        user['name'] = str(input("\nPlease enter your name: "))
+        user['password'] = str(input("\nPlease enter the password: "))
         user['data'] = []
         with open('data_saver', 'w') as file:
             file.write(json.dumps(user))
@@ -104,16 +114,19 @@ class Weekday(Student):
 
 def main():
     while True:
-        actions = Student.action()
-        if actions == 1:
+        Student.actions = Student.action()
+        if Student.actions == 1:
             Student.student_info()
             Student.set_up_json()
             Student.info_input()
+            Activity.input_activity()
+            Weekday.input_weekdays()
+
             Student.input_money()
-        elif actions == 2:
+        elif Student.actions == 2:
             Student.download_input()
-        elif actions == 3:
-            return actions
+        elif Student.actions == 3:
+            return Student.actions
         else:
             return Student.action()
 
