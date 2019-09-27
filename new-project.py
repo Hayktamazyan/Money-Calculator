@@ -1,36 +1,29 @@
 import json
-print('\n   Welcome to MoneySaver program ')
-print('\n   Please enter your option ')
+print("\n Welcome to MoneySaver program")
+print("\n Please enter your option")
 
 
 class Student:
-
-    user = {}
     new_data = {}
 
+    def __init__(self):
+        pass
 
-    @classmethod
-    def student_info(cls, name, password, data):
-        cls.name = name
-        cls.password = password
-        cls.data = data
-        data = str(name) + '' + str(password)
-        Student.user['name'] = str(input("\nPlease enter your name: "))
-        Student.user['password'] = str(input("\nPlease enter your password: "))
-        Student.new_data['data'] = data
-
-    @classmethod
-    def student(cls):
-        with open("main.json") as data_file:
-            cls.activities = json.load(data_file)
-        return cls.activities['student']['activity']
+    @staticmethod
+    def student_info():
+        user = {}
+        user['name'] = str(input("Please enter your name: "))
+        user['password'] = str(input("Please enter the password: "))
+        user['data'] = []
+        with open('data_saver', 'w') as file:
+            file.write(json.dumps(user))
 
     @staticmethod
     def set_up_json():
         with open("main.json") as data_file:
             file = json.load(data_file)
-            weekdays = file['student']['weekdays']
             activity = file['student']['activity']
+            weekdays = file['student']['weekdays']
             money = file['student']['budget']
             return weekdays, activity, money
 
@@ -47,19 +40,20 @@ class Student:
 
     @classmethod
     def info_input(cls):
-        for j in cls.file['student']['activity']:
-            print(j)
-        Student.new_data['activity'] = Activity.input_activity()
-        for i in cls.file['student']['weekdays']:
+        for i in cls.set_up_json():
             print(i)
-        Student.new_data = Weekday.input_weekdays('weekday')
-        for a in cls.file['student']['budget']:
-            print(a)
-        Student.new_data = Student.input_money('budget')
-        with open('data_saver.json', 'r') as f:
-            cls.file = json.load(f)
-        with open('data_saver.json', 'w') as f:
-            f.write(json.dumps(cls.file))
+        Student.new_data['activity'] = Activity.input_activity()
+        for j in cls.set_up_json():
+            print(j)
+        Student.new_data['weekday'] = Weekday.input_weekdays()
+        for k in cls.set_up_json():
+            print(k)
+        Student.new_data['budget'] = Student.input_money()
+        with open('data_saver', 'r') as data_file:
+            data = json.loads(data_file)
+            data['data'].append(Student.new_data)
+        with open('data_saver', 'w') as file:
+            file.write(json.dumps(data))
 
     @classmethod
     def action(cls):
@@ -84,58 +78,49 @@ class Student:
 
 
 class Activity(Student):
-    @classmethod
-    def input_activity(cls, i):
-        cls.i = i
-        activities = input("\nPlease choose one of the activities: ")
-        cls.activity = Student.set_up_json()
+    @staticmethod
+    def input_activity():
+        term = input("\nPlease select one of this activities: ")
         while True:
-            if i in cls.activity:
-                print("Choose one of these activities ")
-                return activities
+            if term in Student.set_up_json():
+                return term
             else:
-                print("You have a wrong input, Try again: ")
-                return Activity.input_activity(i)
+                term = input("\nYou have typed something wrong, input it again: ")
 
 
 class Weekday(Student):
-    def input_weekdays(self):
-        weekdays = input("\n Please enter one of the weekdays: ")
-        self.weekdays = super().set_up_json()
+    @staticmethod
+    def input_weekdays():
+        weekday = input("\nPlease select one of the weekdays: ")
         while True:
-            if weekdays in self.weekdays:
-                return weekdays
+            if weekday in Student.set_up_json():
+                return weekday
             else:
-                print("You have a wrong input, try again: ")
+                weekday = input("\nYou have typed something wrong, input it again: ")
+
 
 
 
 
 def main():
     while True:
-        Student.actions = Student.action()
-        if Student.actions == 1:
-            Student.student()
-            Student.student_info(name=0, password=0, data=0)
+        actions = Student.action()
+        if actions == 1:
+            Student.student_info()
             Student.set_up_json()
             Student.info_input()
-        elif Student.actions == 2:
+            Student.input_money()
+        elif actions == 2:
             Student.download_input()
-            return Student.action()
-        elif Student.actions == 3:
-            return Student.actions
+        elif actions == 3:
+            return actions
         else:
             return Student.action()
+
+
 main()
 
 print("\n Thanks for using our program. ")
-
-
-
-
-
-
-
 
 
 
