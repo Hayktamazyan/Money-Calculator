@@ -5,6 +5,7 @@ print("\n Please enter your option")
 
 class Student:
     new_data = {}
+    data = {}
 
     def __init__(self, Supermarket, Cafeteria, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, data):
         self.Supermarket = Supermarket
@@ -16,7 +17,7 @@ class Student:
         self.Friday = Friday
         self.Saturday = Saturday
         self.Sunday = Sunday
-        self.data['data'] = self
+        self.data[data] = self
 
 
     @staticmethod
@@ -30,7 +31,7 @@ class Student:
 
     @staticmethod
     def set_up_json():
-        with open("main.json") as data_file:
+        with open("main.json", "r") as data_file:
             file = json.load(data_file)
             activity = file['student']['activity']
             weekdays = file['student']['weekdays']
@@ -121,7 +122,6 @@ def main():
             Student.info_input()
             Activity.input_activity()
             Weekday.input_weekdays()
-
             Student.input_money()
         elif Student.actions == 2:
             Student.download_input()
