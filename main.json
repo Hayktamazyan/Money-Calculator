@@ -1,0 +1,18 @@
+{
+  "student": {
+    "activity": [
+      "Supermarket",
+      "Cafeteria"
+    ],
+    "budget": {},
+    "weekdays": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ]
+  }
+}
