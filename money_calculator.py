@@ -4,8 +4,6 @@ import json
 class User:
     print("\nWelcome to MoneySaver program")
 
-    file = "main.json"
-
     def __init__(self, name, password):
         self.name = name
         self.password = password
@@ -21,11 +19,9 @@ class User:
     def print_spendings(self):
         print(self.spendings)
 
-    def set_up_json(self, file, activities, weekdays):
-        self.activities = activities
-        self.weekdays = weekdays
-        with open(file) as data_file:
-            file = json.loads(data_file)
+    def set_up_json(self):
+        with open("main.json") as data_file:
+            file = json.load(data_file)
             self.activities = file['student']['activity']
             self.weekdays = file['student']['weekdays']
             return self.activities, self.weekdays
@@ -33,7 +29,7 @@ class User:
 
 def action():
     print("\nPlease select one of these actions: ")
-    actions = int(input("1–press for adding, 2–for the report, 3–exist "))
+    actions = int(input("1–press for adding, 2–for the report, 3–exist: "))
     if actions == 1 or actions == 2:
         return actions
     elif actions == 3:
@@ -46,12 +42,40 @@ def action():
 
 class Activity(User):
     def choose_activity(self):
-        key = input("Please choose one of the activities: ")
+        print("\nHere are the activities: "
+              "supermarket, " + "cafeteria")
+        key = input("\nPlease choose one of the activities: ")
         if key in self.activities:
+            print("\nYou chose " + key + ":")
             return key
         else:
-            print("You have a wrong input, please type again:")
-            return Activity
+            print("\nYou have a wrong input, please type again:")
+            return Activity.choose_activity(self)
+
+
+class Weekday(User):
+    def choose_weekday(self):
+        print("\nHere are the weekdays: "
+              "monday, " + "tuesday, " + "wednesday, " + "thursday, " + "friday, " + "saturday, " + "sunday")
+        day = input("\nPlease choose one of the weekdays: ")
+        if day in self.weekdays:
+            print("\nYou chose " + day + ":")
+            return day
+        else:
+            print("\nYou have a wrong input, please try again: ")
+            return Weekday.choose_weekday(self)
+
+
+class Budget(User):
+    def input_money(self):
+        while True:
+            data = input("\nPlease enter the amount of money: ")
+            temp = data.replace('.', '', 1)
+            if temp.isdigit():
+                data = float(data)
+                return data
+            else:
+                print("\nSomething went wrong, try again:")
 
 
 
@@ -72,12 +96,18 @@ def main():
             print("Thanks for using our App")
             break
         else:
-            activity = Activity
-            activity.choose_activity(activity)
-            day = input("Please type the day of the week: ")
-            amount = input("Please type the amount: ")
+            activity = Activity("name", "password")
+            activity.set_up_json()
+            activity.choose_activity()
+            weekdays = Weekday("name", "password")
+            weekdays.set_up_json()
+            weekdays.choose_weekday()
+            money = Budget("name", "password")
+            money.input_money()
+            # day = input("Please type the day of the week: ")
+            # amount = input("Please type the amount: ")
 
-            user.add_spending(activity, day, amount)
+            # user.add_spending(activity, day, amount)
 
 
 main()
