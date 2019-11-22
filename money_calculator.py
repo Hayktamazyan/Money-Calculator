@@ -26,18 +26,31 @@ class User:
             self.weekdays = file['student']['weekdays']
             return self.activities, self.weekdays
 
+    # @classmethod
+    # def input_in_main_json(cls):
+    #     with open('main.json', 'w') as file:
+    #         file.write(json.dumps(cls.spendings))
 
-def action():
+
+
+        # with open('main.json', 'r') as file:
+        #     data = json.load(file)
+        #     data['data'].append(cls.spendings)
+        # with open('data_saver.json', 'w') as file:
+        #     file.write(json.dumps(data))
+
+
+def choose_action():
     print("\nPlease select one of these actions: ")
-    actions = int(input("1–press for adding, 2–for the report, 3–exist: "))
+    actions = int(input("\n1 - press for adding, 2 - press for report, 3 - press for exit: "))
     if actions == 1 or actions == 2:
         return actions
     elif actions == 3:
-        print("You have exited ")
+        print("\nYou have exited")
         return actions
     else:
-        print("You have wrong input try again: ")
-        return actions
+        print("\nSomething went wrong, try again: ")
+        return choose_action()
 
 
 class Activity(User):
@@ -76,6 +89,8 @@ class Budget(User):
                 return data
             else:
                 print("\nSomething went wrong, try again:")
+                return Budget.input_money(self)
+
 
 
 
@@ -84,30 +99,37 @@ class Budget(User):
 
 
 def main():
-    action()
-    username = input("\nPlease let us know your Name: ")
-    userpassword = input("\nPlease enter your Password: ")
-    user = User(username, userpassword)
-
+    action = choose_action()
     while True:
-        choice = input("Do you want to add Spending? please type Yes/No")
-        if choice == "No":
-            user.print_spendings()
-            print("Thanks for using our App")
-            break
+        if action == 1:
+            username = input("\nPlease let us know your Name: ")
+            userpassword = input("\nPlease enter your Password: ")
+            user = User(username, userpassword)
+            choice = input("Do you want to add Spending? please type Yes/No")
+            if choice == "No":
+                user.print_spendings()
+                print("Thanks for using our App")
+                break
+            else:
+                activity = Activity("name", "password")
+                activity.set_up_json()
+                activity.choose_activity()
+                weekdays = Weekday("name", "password")
+                weekdays.set_up_json()
+                weekdays.choose_weekday()
+                money = Budget("name", "password")
+                money.input_money()
+                user.add_spending(activity, weekdays, money)
+                user.print_spendings()
+        elif action == 2:
+            # should be connectd with main. json load from there and check the data
+            pass
         else:
-            activity = Activity("name", "password")
-            activity.set_up_json()
-            activity.choose_activity()
-            weekdays = Weekday("name", "password")
-            weekdays.set_up_json()
-            weekdays.choose_weekday()
-            money = Budget("name", "password")
-            money.input_money()
-            # day = input("Please type the day of the week: ")
-            # amount = input("Please type the amount: ")
-
-            # user.add_spending(activity, day, amount)
+            action == 3
+            print("\nThanks for using our program")
+            break
 
 
 main()
+
+
