@@ -55,8 +55,8 @@ def choose_action():
 
 class Activity(User):
     def choose_activity(self):
-        print("\nHere are the activities: "
-              "supermarket, " + "cafeteria")
+        print("\nHere are the activities: ")
+        print(self.activities[0]+', '+self.activities[1])
         key = input("\nPlease choose one of the activities: ")
         if key in self.activities:
             print("\nYou chose " + key + ":")
@@ -68,8 +68,9 @@ class Activity(User):
 
 class Weekday(User):
     def choose_weekday(self):
-        print("\nHere are the weekdays: "
-              "monday, " + "tuesday, " + "wednesday, " + "thursday, " + "friday, " + "saturday, " + "sunday")
+        print("\nHere are the weekdays: ")
+        print(self.weekdays[0]+', '+self.weekdays[1]+', '+self.weekdays[2]+', '+self.weekdays[3]+', '+self.weekdays[4]
+              +', '+self.weekdays[5]+', '+self.weekdays[6])
         day = input("\nPlease choose one of the weekdays: ")
         if day in self.weekdays:
             print("\nYou chose " + day + ":")
@@ -90,12 +91,6 @@ class Budget(User):
             else:
                 print("\nSomething went wrong, try again:")
                 return Budget.input_money(self)
-
-
-
-
-
-
 
 
 def main():
@@ -121,6 +116,7 @@ def main():
                 money.input_money()
                 user.add_spending(activity, weekdays, money)
                 user.print_spendings()
+                break
         elif action == 2:
             # should be connectd with main. json load from there and check the data
             pass
