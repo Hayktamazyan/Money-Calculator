@@ -26,18 +26,14 @@ class User:
             self.weekdays = file['student']['weekdays']
             return self.activities, self.weekdays
 
-    # @classmethod
-    # def input_in_main_json(cls):
-    #     with open('main.json', 'w') as file:
-    #         file.write(json.dumps(cls.spendings))
-
-
-
-        # with open('main.json', 'r') as file:
-        #     data = json.load(file)
-        #     data['data'].append(cls.spendings)
-        # with open('data_saver.json', 'w') as file:
-        #     file.write(json.dumps(data))
+    @classmethod
+    def upload_new_data(cls):
+        with open('main.json', 'r') as file:
+            data = json.load(file)
+            data['newSpending'].append(cls.spendings)
+        with open('main.json', 'w') as file:
+            file.write(json.dumps(data))
+        pass
 
 
 def choose_action():
@@ -56,7 +52,8 @@ def choose_action():
 class Activity(User):
     def choose_activity(self):
         print("\nHere are the activities: ")
-        print(self.activities[0]+', '+self.activities[1])
+        for i in self.activities:
+            print(i)
         key = input("\nPlease choose one of the activities: ")
         if key in self.activities:
             print("\nYou chose " + key + ":")
@@ -69,8 +66,8 @@ class Activity(User):
 class Weekday(User):
     def choose_weekday(self):
         print("\nHere are the weekdays: ")
-        print(self.weekdays[0]+', '+self.weekdays[1]+', '+self.weekdays[2]+', '+self.weekdays[3]+', '+self.weekdays[4]
-              +', '+self.weekdays[5]+', '+self.weekdays[6])
+        for i in self.weekdays:
+            print(i)
         day = input("\nPlease choose one of the weekdays: ")
         if day in self.weekdays:
             print("\nYou chose " + day + ":")
@@ -116,9 +113,10 @@ def main():
                 money.input_money()
                 user.add_spending(activity, weekdays, money)
                 user.print_spendings()
+                User.upload_new_data()
                 break
         elif action == 2:
-            # should be connectd with main. json load from there and check the data
+            User.upload_new_data()
             pass
         else:
             action == 3
