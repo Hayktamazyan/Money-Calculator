@@ -26,14 +26,14 @@ class User:
             self.weekdays = file['student']['weekdays']
             return self.activities, self.weekdays
 
-    @classmethod
-    def upload_new_data(cls):
-        with open('main.json', 'r') as file:
-            data = json.load(file)
-            data['newSpending'].append(cls.spendings)
+    def new_input_json(self):
         with open('main.json', 'w') as file:
-            file.write(json.dumps(data))
-        pass
+            file.write(json.dumps(self.spendings))
+
+
+
+
+
 
 
 def choose_action():
@@ -92,36 +92,34 @@ class Budget(User):
 
 def main():
     action = choose_action()
+    user = User
     while True:
         if action == 1:
             username = input("\nPlease let us know your Name: ")
             userpassword = input("\nPlease enter your Password: ")
-            user = User(username, userpassword)
-            choice = input("Do you want to add Spending? please type Yes/No")
-            if choice == "No":
-                user.print_spendings()
-                print("Thanks for using our App")
-                break
-            else:
-                activity = Activity("name", "password")
-                activity.set_up_json()
-                activity.choose_activity()
-                weekdays = Weekday("name", "password")
-                weekdays.set_up_json()
-                weekdays.choose_weekday()
-                money = Budget("name", "password")
-                money.input_money()
-                user.add_spending(activity, weekdays, money)
-                user.print_spendings()
-                User.upload_new_data()
-                break
+            user = User(username,userpassword)
+            activity = Activity("name", "password")
+            activity.set_up_json()
+            activity.choose_activity()
+            weekdays = Weekday("name", "password")
+            weekdays.set_up_json()
+            weekdays.choose_weekday()
+            money = Budget("name", "password")
+            money.input_money()
+            # user.add_spending(activity, weekdays, money)
+            # user.print_spendings()
+            user.new_input_json()
+            break
         elif action == 2:
-            User.upload_new_data()
-            pass
+            # User.upload_new_data()
+                pass
         else:
             action == 3
-            print("\nThanks for using our program")
+            print("\n\tThanks for using our program")
             break
+
+
+
 
 
 main()
