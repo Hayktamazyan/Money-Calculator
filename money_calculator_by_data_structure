@@ -1,0 +1,193 @@
+import json
+
+
+class User:
+    print("\nWelcome to MoneySaver program")
+
+    def __init__(self, name, password):
+        self.name = name
+        self.password = password
+        self.spendings = []
+
+    def add_spending(self, activityType, dayOfWeek, amount):
+        newSpending = {}
+        newSpending["activity"] = activityType
+        newSpending["day"] = dayOfWeek
+        newSpending["amount"] = amount
+        self.spendings.append(newSpending)
+
+    # def print_spendings(self):
+    #     print(self.spendings)
+
+    def set_up_json(self):
+        with open("main.json") as data_file:
+            file = json.load(data_file)
+            self.student = file['student']
+            self.activities = file['student']['activity']
+            self.weekdays = file['student']['weekdays']
+            return self.activities, self.weekdays, self.student
+
+
+    # def print_spendings(self):
+    #     with open('main.json', 'r') as file:
+    #         new = json.load(file)
+    #         if new['spendings'] is None:
+    #             new['spendings'] = []
+    #             print(new)
+    #         else:
+    #             new['spendings'].append(self.spendings)
+    #     with open('main.json', 'w') as file:
+    #         file.write(json.dumps(new))
+
+
+def choose_action():
+    print("\nPlease select one of these actions: ")
+    actions = int(input("\n1 - press for adding, 2 - press for report, 3 - press for exit: "))
+    if actions == 1 or actions == 2:
+        return actions
+    elif actions == 3:
+        print("\nYou have exited")
+        return actions
+    else:
+        print("\nSomething went wrong, try again: ")
+        return choose_action()
+
+
+class Activity(User):
+    def choose_activity(self):
+        print("\nHere are the activities: ")
+        for i in self.activities:
+            print(i)
+        key = input("\nPlease choose one of the activities: ")
+        if key in self.activities:
+            print("\nYou chose " + key + ":")
+            return key
+        else:
+            print("\nYou have a wrong input, please type again:")
+            return Activity.choose_activity(self)
+
+
+class Weekday(User):
+    def choose_weekday(self):
+        print("\nHere are the weekdays: ")
+        for i in self.weekdays:
+            print(i)
+        day = input("\nPlease choose one of the weekdays: ")
+        if day in self.weekdays:
+            print("\nYou chose " + day + ":")
+            return day
+        else:
+            print("\nYou have a wrong input, please try again: ")
+            return Weekday.choose_weekday(self)
+
+
+class Budget(User):
+    def input_money(self):
+        while True:
+            data = input("\nPlease enter the amount of money: ")
+            temp = data.replace('.', '', 1)
+            if temp.isdigit():
+                data = float(data)
+                return data
+            else:
+                print("\nSomething went wrong, try again:")
+                return Budget.input_money(self)
+
+class node(User):
+
+    def name(self, value=None):
+        self.value = value
+        self.left_child = None
+        self.right_child = None
+
+    def ascciofvalue(self, weekday):
+        for weekday in self.weekdays:
+            return ord(weekday)
+        self.weekday = ord(weekday)
+
+
+
+
+    def value(self):
+        self.left_child = self.weekday
+        self.right_child = self.weekday
+
+
+
+class binary_search_tree(User):
+
+    def root_json(self):
+        for i in self.student:
+            self.root = i
+
+    def insert(self, value):
+        if self.root == None:
+            self.root = node(value)
+        else:
+            self._insert(value, self.root)
+
+
+    def _insert(self, value, cur_node):
+        if value < cur_node.value:
+            if cur_node.left_child == None:
+                cur_node.left_child = node(value)
+
+        elif value > cur_node.value:
+            if cur_node.right_child == None:
+                cur_node.right_child = node(value)
+            else:
+                self._insert(value, cur_node.right_child)
+        else:
+            print("Value is already in tree!")
+
+    def search(self, value):
+        if self.root != None:
+            return self._search(value, self.root)
+        else:
+            return False
+
+    def _search(self, value, cur_node):
+        if value == cur_node.value:
+            return True
+        elif value < cur_node.value and cur_node.left_child != None:
+            return self._search(value, cur_node.left_child)
+        elif value > cur_node.value and cur_node.right_child != None:
+            return self._search(value, cur_node.right_child)
+        return False
+
+
+
+
+def main():
+    action = choose_action()
+    user = User
+    while True:
+        if action == 1:
+            username = input("\nPlease let us know your Name: ")
+            userpassword = input("\nPlease enter your Password: ")
+            user = User(username,userpassword)
+            activity = Activity("name", "password")
+            activity.set_up_json()
+            activity.choose_activity()
+            weekdays = Weekday("name", "password")
+            weekdays.set_up_json()
+            weekdays.choose_weekday()
+            money = Budget("name", "password")
+            money.input_money()
+            user.add_spending(activity, weekdays, money)
+            # user.print_spendings()
+            # user.print_spendings()
+            node
+            binary_search_tree
+            break
+        elif action == 2:
+            pass
+        else:
+            action == 3
+            print("\n\tThanks for using our program")
+            break
+
+
+main()
+
+'''however this does not work'''
