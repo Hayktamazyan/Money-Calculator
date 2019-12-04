@@ -16,8 +16,8 @@ class User:
         newSpending["amount"] = amount
         self.spendings.append(newSpending)
 
-    def print_spendings(self):
-        print(self.spendings)
+    # def print_spendings(self):
+    #     print(self.spendings)
 
     def set_up_json(self):
         with open("main.json") as data_file:
@@ -26,14 +26,17 @@ class User:
             self.weekdays = file['student']['weekdays']
             return self.activities, self.weekdays
 
-    def new_input_json(self):
+
+    def print_spendings(self):
+        with open('main.json', 'r') as file:
+            new = json.load(file)
+            if new['spendings'] is None:
+                new['spendings'] = []
+                print(new)
+            else:
+                new['spendings'].append(self.spendings)
         with open('main.json', 'w') as file:
-            file.write(json.dumps(self.spendings))
-
-
-
-
-
+            file.write(json.dumps(new))
 
 
 def choose_action():
@@ -106,20 +109,16 @@ def main():
             weekdays.choose_weekday()
             money = Budget("name", "password")
             money.input_money()
-            # user.add_spending(activity, weekdays, money)
+            user.add_spending(activity, weekdays, money)
             # user.print_spendings()
-            user.new_input_json()
+            user.print_spendings()
             break
         elif action == 2:
-            # User.upload_new_data()
-                pass
+            user.print_spendings("self")
         else:
             action == 3
             print("\n\tThanks for using our program")
             break
-
-
-
 
 
 main()
